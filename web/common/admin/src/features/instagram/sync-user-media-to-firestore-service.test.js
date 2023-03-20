@@ -28,8 +28,6 @@ describe("Instagram/SyncUserMediaToFirestoreService", () => {
       "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-i0ruj%40amoschan-test.iam.gserviceaccount.com"
     }
 
-    console.log({ serviceAccount })
-
     app = admin.initializeApp({
       credential: admin.credential.cert(serviceAccount),
     })
