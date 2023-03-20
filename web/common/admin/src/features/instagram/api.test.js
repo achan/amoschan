@@ -6,13 +6,22 @@ describe("Instagram/Api", () => {
 
   beforeEach(async () => {
     sessionId = "58637615932%3AqNYqB3dE3e48CZ%3A5%3AAYee2nFkMKuuuj9JgiE5vbwSxmREtAOK2z3VYVjMmQ"
-    api = new Api({ fetch: fetchBuilder.withCache(new FileSystemCache({
-      cacheDirectory: "testRequests",
-    })) })
+    api = new Api(
+      sessionId,
+      {
+        fetch: fetchBuilder.withCache(new FileSystemCache({
+          cacheDirectory: "testRequests",
+        }))
+      }
+    )
+  })
 
-    await api.login({
-      username: process.env.INSTAGRAM_USERNAME,
-      password: process.env.INSTAGRAM_PASSWORD,
+  describe("login", () => {
+    test("it returns the session id", async () => {
+      expect(await api.login({
+        username: process.env.INSTAGRAM_USERNAME,
+        password: process.env.INSTAGRAM_PASSWORD,
+      })).toBe(sessionId)
     })
   })
 

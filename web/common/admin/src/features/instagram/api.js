@@ -1,9 +1,10 @@
 const fetch = require("node-fetch")
 
 module.exports = class Api {
-  constructor({ fetch: fetchDependency }) {
+  constructor(sessionId = null, { fetch: fetchDependency }) {
     this.baseUrl = process.env.INSTAGRAM_API_HOST
     this.fetch = fetchDependency || fetch
+    this.sessionId = sessionId
   }
 
   async login({ username, password }) {
