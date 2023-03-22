@@ -10,7 +10,6 @@ describe("Instagram/SyncMediaToStorageService", () => {
 
   let app,
     firestore,
-    service,
     serviceAccount,
     storage
 
@@ -37,26 +36,46 @@ describe("Instagram/SyncMediaToStorageService", () => {
     storage = getStorage(app)
   })
 
-  beforeEach(async () => {
-    service = new SyncMediaToStorageService(
-      `/accounts/instagram:${pk}/media/3057966446139158432`,
-      {
-        firestore,
-        storage,
-        logger: console,
-        fetch: fetchBuilder.withCache(new FileSystemCache({
-          cacheDirectory: "testRequests",
-        })),
-      }
-    )
-  })
-
   describe("perform", () => {
-    test("it scrapes the instagram profile", async () => {
-      await service.perform()
+    let startDate
 
-      expect(1).toBe(2)
-    }, 3000000)
+    beforeAll(async () => {
+      startDate = new Date()
+
+      const service = new SyncMediaToStorageService(
+        `/accounts/instagram:${pk}/media/3057966446139158432`,
+        {
+          firestore,
+          storage,
+          logger: console,
+          fetch: fetchBuilder.withCache(new FileSystemCache({
+            cacheDirectory: "testRequests",
+          })),
+        }
+      )
+
+      await service.perform()
+    }, 60000)
+
+    test("it scrapes the post", async () => {
+      const [files] = await storage.bucket().getFiles({ prefix: `instagram:${pk}` })
+
+      const recentlyCreatedFiles = files
+        .map(f => f.metadata)
+        .filter(f => new Date(f.timeCreated) > startDate)
+
+      expect(new Set(recentlyCreatedFiles.map(f => f.name))).toEqual(new Set([
+        "instagram:283811893/3057966446139158432-5d419157ffc144f6b3189583d30142c8.mp4",
+        "instagram:283811893/3057966446139158432-6ec48827219ad3f7485d693f9778a263.mp4",
+        "instagram:283811893/3057966446139158432-9ab627884bd7dce2bd2cbd4adcf8b3f5.jpg",
+        "instagram:283811893/3057966446139158432-aa52efc056173012f3cc00f2cc2e9a97.jpg",
+        "instagram:283811893/3057966446139158432-b43473f6267921ea990bf5a58c152c62.jpg",
+        "instagram:283811893/3057966446139158432-b4bf51daf9b402aa3bf974c0b8e9a3f8.jpg",
+        "instagram:283811893/3057966446139158432-c13ff90f3ab7b5ade0f4b759f75e08f9.mp4",
+        "instagram:283811893/3057966446139158432-fc4e623a405999e866e33d292f12c7ea.jpg",
+        "instagram:283811893/3057966446139158432-fd51d290698977fbd13b5c342d3daac3.jpg",
+      ]))
+    })
   })
 })
 

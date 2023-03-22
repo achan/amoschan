@@ -1,6 +1,6 @@
-const crypto = require("crypto")
 const fetch = require("node-fetch")
 const fs = require("fs")
+const { Helpers: { Instagram: { getFileInfo } } } = require("@amoschan/common")
 
 module.exports = class SyncMediaToStorageService {
   constructor(mediaDocPath, { storage, firestore, logger, fetch: fetchDependency }) {
@@ -30,27 +30,16 @@ module.exports = class SyncMediaToStorageService {
     ].filter(a => a)
 
     for (const asset of assets) {
-      await this._syncAsset(account, media, asset)
+      await this._syncAsset(account, media.pk, asset)
       await new Promise((resolve) => setTimeout(resolve, 300))
     }
   }
 
-  async _syncAsset(account, media, url) {
-    const hash = crypto.createHash("md5").update(url).digest("hex")
+  async _syncAsset(account, mediaPk, url) {
+    const { filename, filePath: assetPath } = getFileInfo(account, mediaPk, url)
+    await this.logger.debug(`Syncing ${assetPath}...`)
 
-    const fileExtension = url
-      .split(/[#?]/)[0]
-      .split('.')
-      .pop()
-      .trim()
-
-    const filename = `${media.pk}-${hash}.${fileExtension}`
-
-    const assetPath = `${account.type}:${account.pk}/${filename}`
     const localPath = `/tmp/${filename}`
-
-    this.logger.debug(`Syncing ${assetPath}...`)
-
     await this._downloadFile(url, localPath)
     await this.bucket.upload(localPath, { destination: assetPath })
   }

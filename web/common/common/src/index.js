@@ -1,4 +1,4 @@
 module.exports = {
-  Utils: require("./helpers/utils"),
+  Helpers: require("./helpers"),
 }
 
