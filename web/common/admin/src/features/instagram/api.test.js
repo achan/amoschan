@@ -26,10 +26,10 @@ describe("Instagram/Api", () => {
   })
 
   describe("userMedia", () => {
-    const gigiPk = "5468237"
+    const pk = "283811893"
 
     test("it returns first page of user's media", async () => {
-      const media = await api.userMedia({ userId: gigiPk })
+      const media = await api.userMedia({ userId: pk })
       expect(media.length).toBe(50)
     })
   })

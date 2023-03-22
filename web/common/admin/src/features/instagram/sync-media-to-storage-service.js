@@ -19,30 +19,40 @@ module.exports = class SyncMediaToStorageService {
 
     const media = mediaSnapshot.data()
 
-    for (const resource of media.resources) {
-      const hash = crypto.createHash("md5")
-        .update(resource.thumbnail_url)
-        .digest("hex")
+    const accountSnapshot = await mediaSnapshot.ref.parent.parent.get()
+    const account = accountSnapshot.data()
 
-      const accountSnapshot = await mediaSnapshot.ref.parent.parent.get()
-      const account = accountSnapshot.data()
+    const assets = [
+      media.video_url,
+      media.thumbnail_url,
+      ...media.resources.map(r => r.thumbnail_url),
+      ...media.resources.map(r => r.video_url),
+    ].filter(a => a)
 
-      const fileExtension = resource.thumbnail_url
-        .split(/[#?]/)[0]
-        .split('.')
-        .pop()
-        .trim()
-
-      const filename = `${media.pk}-${hash}.${fileExtension}`
-
-      const assetPath = `${account.type}:${account.pk}/${filename}`
-      const localPath = `/tmp/${filename}`
-
-      this.logger.debug(`Syncing ${assetPath}...`)
-
-      await this._downloadFile(resource.thumbnail_url, localPath)
-      await this.bucket.upload(localPath, { destination: assetPath })
+    for (const asset of assets) {
+      await this._syncAsset(account, media, asset)
+      await new Promise((resolve) => setTimeout(resolve, 300))
     }
+  }
+
+  async _syncAsset(account, media, url) {
+    const hash = crypto.createHash("md5").update(url).digest("hex")
+
+    const fileExtension = url
+      .split(/[#?]/)[0]
+      .split('.')
+      .pop()
+      .trim()
+
+    const filename = `${media.pk}-${hash}.${fileExtension}`
+
+    const assetPath = `${account.type}:${account.pk}/${filename}`
+    const localPath = `/tmp/${filename}`
+
+    this.logger.debug(`Syncing ${assetPath}...`)
+
+    await this._downloadFile(url, localPath)
+    await this.bucket.upload(localPath, { destination: assetPath })
   }
 
   async _downloadFile(url, path) {

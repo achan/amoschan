@@ -6,7 +6,8 @@ const { fetchBuilder, FileSystemCache } = require("node-fetch-cache")
 require("dotenv").config()
 
 describe("Instagram/SyncMediaToStorageService", () => {
-  const gigiPk = "5468237"
+  const pk = "283811893"
+
   let app,
     firestore,
     service,
@@ -38,7 +39,7 @@ describe("Instagram/SyncMediaToStorageService", () => {
 
   beforeEach(async () => {
     service = new SyncMediaToStorageService(
-      "/accounts/instagram:5468237/media/3060591107523812163",
+      `/accounts/instagram:${pk}/media/3057966446139158432`,
       {
         firestore,
         storage,
@@ -55,7 +56,7 @@ describe("Instagram/SyncMediaToStorageService", () => {
       await service.perform()
 
       expect(1).toBe(2)
-    }, 30000)
+    }, 3000000)
   })
 })
 

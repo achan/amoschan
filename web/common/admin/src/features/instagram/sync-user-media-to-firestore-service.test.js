@@ -6,7 +6,7 @@ const { fetchBuilder, FileSystemCache } = require("node-fetch-cache")
 require("dotenv").config()
 
 describe("Instagram/SyncUserMediaToFirestoreService", () => {
-  const gigiPk = "5468237"
+  const pk = "283811893"
   let app,
     firestore,
     instagram,
@@ -48,7 +48,7 @@ describe("Instagram/SyncUserMediaToFirestoreService", () => {
 
     service = new SyncUserMediaToFirestoreService(
       sessionId,
-      gigiPk,
+      pk,
       { firestore, logger: console, instagram }
     )
   })
@@ -60,7 +60,7 @@ describe("Instagram/SyncUserMediaToFirestoreService", () => {
       await service.perform()
       const accountSnapshot = await firestore
         .collection("accounts")
-        .doc(`instagram:${gigiPk}`)
+        .doc(`instagram:${pk}`)
         .get()
 
       expect(accountSnapshot.data().lastScrapedAt.toMillis())
