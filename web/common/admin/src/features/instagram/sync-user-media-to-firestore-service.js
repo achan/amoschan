@@ -1,6 +1,6 @@
 const { FieldValue } = require("firebase-admin/firestore")
 
-module.exports = class SyncUserMediaToFirestore {
+module.exports = class SyncUserMediaToFirestoreService {
   constructor(sessionId, userId, { firestore, logger, instagram }) {
     this.sessionId = sessionId
     this.userId = userId
@@ -25,7 +25,9 @@ module.exports = class SyncUserMediaToFirestore {
 
     const mediaList = await this.instagram.userMedia({ userId: this.userId })
     for (const media of mediaList) {
-      await accountSnapshot.ref.collection("media").doc(media.pk).set(media)
+      await accountSnapshot.ref.collection("media")
+        .doc(media.pk)
+        .set({ ...media, _metadata: { type: "instagram", status: "new" } })
     }
 
     await accountSnapshot.ref.update({ lastScrapedAt: FieldValue.serverTimestamp() })

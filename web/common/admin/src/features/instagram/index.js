@@ -1,5 +1,6 @@
 module.exports = {
   Api: require("./api"),
-  SyncUserMediaToFirestore: require("./sync-user-media-to-firestore"),
+  SyncUserMediaToFirestoreService: require("./sync-user-media-to-firestore-service"),
+  SyncMediaToStorageService: require("./sync-media-to-storage-service"),
 }
 

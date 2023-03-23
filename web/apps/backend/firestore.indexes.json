@@ -1,0 +1,14 @@
+{
+  "indexes": [
+    {
+      "collectionGroup": "media",
+      "queryScope": "COLLECTION_GROUP",
+      "fields": [
+        { "fieldPath": "_metadata.status", "order": "ASCENDING" },
+        { "fieldPath": "_metadata.type", "order": "ASCENDING" },
+        { "fieldPath": "taken_at", "order": "ASCENDING" }
+      ]
+    }
+  ],
+  "fieldOverrides": []
+}

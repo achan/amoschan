@@ -17,6 +17,8 @@ module.exports = class SyncMediaToStorageService {
       .doc(this.mediaDocPath)
       .get()
 
+    await mediaSnapshot.ref.update({ "_metadata.status": "assetsSyncing" })
+
     const media = mediaSnapshot.data()
 
     const accountSnapshot = await mediaSnapshot.ref.parent.parent.get()
@@ -33,6 +35,8 @@ module.exports = class SyncMediaToStorageService {
       await this._syncAsset(account, media.pk, asset)
       await new Promise((resolve) => setTimeout(resolve, 300))
     }
+
+    await mediaSnapshot.ref.update({ "_metadata.status": "assetsSynced" })
   }
 
   async _syncAsset(account, mediaPk, url) {
