@@ -1,8 +1,8 @@
 const fetch = require("node-fetch")
 
 module.exports = class Api {
-  constructor(sessionId = null, { fetch: fetchDependency }) {
-    this.baseUrl = process.env.INSTAGRAM_API_HOST
+  constructor(baseUrl, sessionId = null, { fetch: fetchDependency }) {
+    this.baseUrl = baseUrl
     this.fetch = fetchDependency || fetch
     this.sessionId = sessionId
   }
@@ -19,7 +19,7 @@ module.exports = class Api {
   }
 
   async userMedia({ userId, amount = 50 }) {
-    const response = await this.fetch(`${process.env.INSTAGRAM_API_HOST}/media/user_medias`, {
+    const response = await this.fetch(`${this.baseUrl}/media/user_medias`, {
       method: "post",
       body: new URLSearchParams({
         user_id: userId,

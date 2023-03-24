@@ -3,10 +3,10 @@ const { getFirestore } = require("firebase-admin/firestore")
 const { getStorage } = require("firebase-admin/storage")
 const { Instagram: { SyncMediaToStorageService } } = require("@amoschan/common-admin")
 
-module.exports.intercomCleanup = ({ app }) =>
+module.exports.syncInstagramMediaToStorage = ({ app }) =>
   functions
     .runWith({ timeoutSeconds: 540 })
-    .pubsub.schedule("* * * * *")
+    .pubsub.schedule("0 * * * *")
     .onRun(async () => {
       const firestore = getFirestore(app)
       const storage = getStorage(app)

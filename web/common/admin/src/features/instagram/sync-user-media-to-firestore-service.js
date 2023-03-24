@@ -1,9 +1,8 @@
 const { FieldValue } = require("firebase-admin/firestore")
 
 module.exports = class SyncUserMediaToFirestoreService {
-  constructor(sessionId, userId, { firestore, logger, instagram }) {
-    this.sessionId = sessionId
-    this.userId = userId
+  constructor(accountId, { firestore, logger, instagram }) {
+    this.accountId = accountId
     this.logger = logger
     this.instagram = instagram
     this.firestore = firestore
@@ -12,7 +11,7 @@ module.exports = class SyncUserMediaToFirestoreService {
   async perform() {
     const accountSnapshot = await this.firestore
       .collection("accounts")
-      .doc(`instagram:${this.userId}`)
+      .doc(this.accountId)
       .get()
 
     if (!accountSnapshot.exists) {
@@ -23,7 +22,7 @@ module.exports = class SyncUserMediaToFirestoreService {
 
     this.logger.debug(`syncing user media for ${account.type}:${account.pk}...`)
 
-    const mediaList = await this.instagram.userMedia({ userId: this.userId })
+    const mediaList = await this.instagram.userMedia({ userId: account.pk })
     for (const media of mediaList) {
       await accountSnapshot.ref.collection("media")
         .doc(media.pk)

@@ -2,9 +2,6 @@ require("dotenv").config()
 
 const { initializeApp, cert } = require("firebase-admin/app")
 const { getFirestore } = require("firebase-admin/firestore")
-const {
-  Loggers: { SlackLogger },
-} = require("@flexday/common-admin")
 
 module.exports = class CommandRunner {
   constructor() {
@@ -22,14 +19,7 @@ module.exports = class CommandRunner {
 
   async run(command, logId) {
     try {
-      await command.run(
-        this.app,
-        new SlackLogger(
-          process.env.SLACK_TOKEN,
-          process.env.SLACK_LOGGER_CHANNEL_ID,
-          logId
-        )
-      )
+      await command.run(this.app, console)
 
       console.log("Done ✅")
     } catch (error) {
