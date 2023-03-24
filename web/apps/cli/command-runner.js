@@ -5,6 +5,7 @@ const { getFirestore } = require("firebase-admin/firestore")
 
 module.exports = class CommandRunner {
   constructor() {
+    console.log({ serviceAccount: process.env.SERVICE_ACCOUNT_PATH })
     const serviceAccount = require(process.env.SERVICE_ACCOUNT_PATH)
 
     const config = {

@@ -7,8 +7,11 @@ module.exports.updateAssociations = ({ app }) =>
     .firestore.document("/scrapers/{id}")
     .onWrite(async (change, context) => {
       const firestore = getFirestore(app)
+      const logger = console
 
-      const { id } = context
+      const { id } = context.params
+
+      await logger.debug(`fetching accounts using scraper: ${id}`)
 
       const accountsSnapshot = await firestore
         .collection("accounts")
