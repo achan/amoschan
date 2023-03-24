@@ -1,10 +1,12 @@
 const functions = require("firebase-functions")
 const { getFirestore } = require("firebase-admin/firestore")
-const { Instagram: { SyncMediaToStorageService } } = require("@flexday/common-admin")
+const {
+  Instagram: { SyncMediaToStorageService },
+} = require("@flexday/common-admin")
 
 module.exports.applyBadges = ({ app }) =>
-  functions
-    .firestore.document("/accounts/{accountPk}/media/{mediaPk}")
+  functions.firestore
+    .document("/accounts/{accountPk}/media/{mediaPk}")
     .onCreate(async (snapshot, context) => {
       await logger.debug("Applying badges to new booking...")
 
@@ -34,4 +36,3 @@ module.exports.applyBadges = ({ app }) =>
 
       await logger.debug("✅")
     })
-

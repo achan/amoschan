@@ -1,9 +1,16 @@
 const fetch = require("node-fetch")
 const fs = require("fs")
-const { Helpers: { Instagram: { getFileInfo } } } = require("@amoschan/common")
+const {
+  Helpers: {
+    Instagram: { getFileInfo },
+  },
+} = require("@amoschan/common")
 
 module.exports = class SyncMediaToStorageService {
-  constructor(mediaDocPath, { storage, firestore, logger, fetch: fetchDependency }) {
+  constructor(
+    mediaDocPath,
+    { storage, firestore, logger, fetch: fetchDependency }
+  ) {
     this.mediaDocPath = mediaDocPath
     this.logger = logger
     this.firestore = firestore
@@ -13,9 +20,7 @@ module.exports = class SyncMediaToStorageService {
   }
 
   async perform() {
-    const mediaSnapshot = await this.firestore
-      .doc(this.mediaDocPath)
-      .get()
+    const mediaSnapshot = await this.firestore.doc(this.mediaDocPath).get()
 
     await mediaSnapshot.ref.update({ "_metadata.status": "assetsSyncing" })
 
@@ -27,9 +32,9 @@ module.exports = class SyncMediaToStorageService {
     const assets = [
       media.video_url,
       media.thumbnail_url,
-      ...media.resources.map(r => r.thumbnail_url),
-      ...media.resources.map(r => r.video_url),
-    ].filter(a => a)
+      ...media.resources.map((r) => r.thumbnail_url),
+      ...media.resources.map((r) => r.video_url),
+    ].filter((a) => a)
 
     for (const asset of assets) {
       await this._syncAsset(account, media.pk, asset)

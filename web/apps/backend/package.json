@@ -8,8 +8,6 @@
   },
   "author": "",
   "license": "ISC",
-  "dependencies": {
-  },
-  "devDependencies": {
-  }
+  "dependencies": {},
+  "devDependencies": {}
 }

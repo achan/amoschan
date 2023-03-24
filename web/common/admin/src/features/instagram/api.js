@@ -10,7 +10,7 @@ module.exports = class Api {
   async login({ username, password }) {
     const response = await this.fetch(`${this.baseUrl}/auth/login`, {
       method: "post",
-      body: new URLSearchParams({ username, password })
+      body: new URLSearchParams({ username, password }),
     })
 
     this.sessionId = await response.json()
@@ -25,7 +25,7 @@ module.exports = class Api {
         user_id: userId,
         sessionid: this.sessionId,
         amount: amount,
-      })
+      }),
     })
 
     return response.json()

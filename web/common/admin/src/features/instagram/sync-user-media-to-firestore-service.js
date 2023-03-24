@@ -24,11 +24,14 @@ module.exports = class SyncUserMediaToFirestoreService {
 
     const mediaList = await this.instagram.userMedia({ userId: account.pk })
     for (const media of mediaList) {
-      await accountSnapshot.ref.collection("media")
+      await accountSnapshot.ref
+        .collection("media")
         .doc(media.pk)
         .set({ ...media, _metadata: { type: "instagram", status: "new" } })
     }
 
-    await accountSnapshot.ref.update({ lastScrapedAt: FieldValue.serverTimestamp() })
+    await accountSnapshot.ref.update({
+      lastScrapedAt: FieldValue.serverTimestamp(),
+    })
   }
 }

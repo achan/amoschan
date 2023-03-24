@@ -20,8 +20,7 @@ module.exports = class AssociationService {
       [`computed.${this.fieldName}`]: {
         sessionId: scraper.sessionId,
         host: scraper.host,
-      }
+      },
     })
   }
 }
-

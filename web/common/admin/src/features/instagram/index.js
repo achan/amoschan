@@ -3,4 +3,3 @@ module.exports = {
   SyncUserMediaToFirestoreService: require("./sync-user-media-to-firestore-service"),
   SyncMediaToStorageService: require("./sync-media-to-storage-service"),
 }
-

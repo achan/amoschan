@@ -1,3 +1,3 @@
 module.exports = {
-  AssociationService: require("./association-service"),  
+  AssociationService: require("./association-service"),
 }

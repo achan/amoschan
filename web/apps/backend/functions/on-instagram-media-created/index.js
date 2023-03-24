@@ -1,3 +1,3 @@
 module.exports.init = ({ app }) => ({
-  syncMediaToStorage: syncMediaToStorage({ app })
+  syncMediaToStorage: syncMediaToStorage({ app }),
 })

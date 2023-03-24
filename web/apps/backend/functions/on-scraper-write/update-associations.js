@@ -1,10 +1,12 @@
 const functions = require("firebase-functions")
 const { getFirestore } = require("firebase-admin/firestore")
-const { Scrapers: { AssociationService } } = require("@amoschan/common-admin")
+const {
+  Scrapers: { AssociationService },
+} = require("@amoschan/common-admin")
 
 module.exports.updateAssociations = ({ app }) =>
-  functions
-    .firestore.document("/scrapers/{id}")
+  functions.firestore
+    .document("/scrapers/{id}")
     .onWrite(async (change, context) => {
       const firestore = getFirestore(app)
       const logger = console
@@ -20,6 +22,9 @@ module.exports.updateAssociations = ({ app }) =>
         .get()
 
       for (const account of accountsSnapshot.docs) {
-        await new AssociationService(account.ref.path, { firestore, logger }).perform()
+        await new AssociationService(account.ref.path, {
+          firestore,
+          logger,
+        }).perform()
       }
     })

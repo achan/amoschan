@@ -1,7 +1,9 @@
 const functions = require("firebase-functions")
 const { getFirestore } = require("firebase-admin/firestore")
 const { getStorage } = require("firebase-admin/storage")
-const { Instagram: { SyncMediaToStorageService } } = require("@amoschan/common-admin")
+const {
+  Instagram: { SyncMediaToStorageService },
+} = require("@amoschan/common-admin")
 
 module.exports.syncInstagramMediaToStorage = ({ app }) =>
   functions
@@ -27,7 +29,9 @@ module.exports.syncInstagramMediaToStorage = ({ app }) =>
 
       const path = mediaSnapshot.docs[0].ref.path
 
-      await new SyncMediaToStorageService(path, { firestore, storage, logger })
-        .perform()
+      await new SyncMediaToStorageService(path, {
+        firestore,
+        storage,
+        logger,
+      }).perform()
     })
-
