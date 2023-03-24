@@ -1,7 +1,7 @@
 const fetch = require("node-fetch")
 
 module.exports = class Api {
-  constructor(baseUrl, sessionId = null, { fetch: fetchDependency }) {
+  constructor(baseUrl, sessionId = null, { fetch: fetchDependency } = {}) {
     this.baseUrl = baseUrl
     this.fetch = fetchDependency || fetch
     this.sessionId = sessionId

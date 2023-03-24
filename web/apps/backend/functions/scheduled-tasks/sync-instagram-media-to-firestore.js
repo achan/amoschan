@@ -14,7 +14,7 @@ module.exports.syncInstagramMediaToFirestore = ({ app }) =>
       const storage = getStorage(app)
       const logger = console
 
-      const accountSnapshot = await firestore
+      const querySnapshot = await firestore
         .collection("accounts")
         .where("type", "==", "instagram")
         .where("status", "==", "active")
@@ -22,18 +22,19 @@ module.exports.syncInstagramMediaToFirestore = ({ app }) =>
         .limit(1)
         .get()
 
-      if (accountSnapshot.empty) {
+      if (querySnapshot.empty) {
         logger.log("No account to sync, exiting...")
         return
       }
 
-      const account = accountSnapshot.docs[0]
+      const accountSnapshot = querySnapshot.docs[0]
+      const account = accountSnapshot.data()
 
       const { scraper } = account.computed
 
       const instagram = new Api(scraper.host, scraper.sessionId)
 
-      await new SyncUserMediaToFirestoreService(id, {
+      await new SyncUserMediaToFirestoreService(accountSnapshot.id, {
         instagram,
         firestore,
         logger,

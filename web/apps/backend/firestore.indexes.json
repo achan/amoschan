@@ -13,9 +13,9 @@
       "collectionGroup": "accounts",
       "queryScope": "COLLECTION",
       "fields": [
-        { "fieldPath": "lastScrapedAt", "order": "ASCENDING" },
+        { "fieldPath": "status", "order": "ASCENDING" },
         { "fieldPath": "type", "order": "ASCENDING" },
-        { "fieldPath": "status", "order": "ASCENDING" }
+        { "fieldPath": "lastScrapedAt", "order": "ASCENDING" }
       ]
     },
     {
