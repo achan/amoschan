@@ -1,7 +1,9 @@
 const functions = require("firebase-functions")
 const { getFirestore } = require("firebase-admin/firestore")
 const { getStorage } = require("firebase-admin/storage")
-const { Instagram: { Api, SyncUserMediaToFirestoreService } } = require("@amoschan/common-admin")
+const {
+  Instagram: { Api, SyncUserMediaToFirestoreService },
+} = require("@amoschan/common-admin")
 
 module.exports.syncInstagramMediaToFirestore = ({ app }) =>
   functions
@@ -29,9 +31,11 @@ module.exports.syncInstagramMediaToFirestore = ({ app }) =>
 
       const { scraper } = account.computed
 
-      const instagram = new Api(host, scraper.sessionId)
+      const instagram = new Api(scraper.host, scraper.sessionId)
 
-      await new SyncUserMediaToFirestoreService(id, { instagram, firestore, logger })
-        .perform()
+      await new SyncUserMediaToFirestoreService(id, {
+        instagram,
+        firestore,
+        logger,
+      }).perform()
     })
-
