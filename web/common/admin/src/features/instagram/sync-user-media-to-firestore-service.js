@@ -22,7 +22,14 @@ module.exports = class SyncUserMediaToFirestoreService {
 
     this.logger.debug(`syncing user media for ${account.type}:${account.pk}...`)
 
-    const mediaList = await this.instagram.userMedia({ userId: account.pk })
+    const mediaList = (
+      await this.instagram.userMedia({ userId: account.pk })
+    ).filter(
+      (media) =>
+        !account.lastScrapedAt ||
+        new Date(media.taken_at) > account.lastScrapedAt.toDate()
+    )
+
     for (const media of mediaList) {
       await accountSnapshot.ref
         .collection("media")
