@@ -1,0 +1,25 @@
+{
+  "name": "@amoschan/cli",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "exec": "node"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "date-fns": "^2.29.3",
+    "dotenv": "^16.0.0",
+    "firebase": "^9.6.10",
+    "firebase-admin": "^11.5",
+    "intercom-client": "^3.1.5",
+    "module": "^1.2.5",
+    "stripe": "^9.2.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.17.8",
+    "@babel/preset-env": "^7.16.11"
+  }
+}

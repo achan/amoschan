@@ -1,0 +1,30 @@
+{
+  "name": "@amoschan/monorepo",
+  "private": true,
+  "version": "1.0.0",
+  "description": "",
+  "dependencies": {},
+  "devDependencies": {
+    "husky": "^7.0.0",
+    "webpack": "^5.68.0",
+    "webpack-cli": "^4.9.2"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prepare": "husky install"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/achan/amoschan.git"
+  },
+  "author": "Amos Chan",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/achan/amoschan/issues"
+  },
+  "homepage": "https://github.com/achan/amoschan#readme",
+  "workspaces": [
+    "./web/common/*",
+    "./web/apps/*"
+  ]
+}

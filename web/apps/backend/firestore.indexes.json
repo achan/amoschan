@@ -1,0 +1,31 @@
+{
+  "indexes": [
+    {
+      "collectionGroup": "media",
+      "queryScope": "COLLECTION_GROUP",
+      "fields": [
+        { "fieldPath": "_metadata.status", "order": "ASCENDING" },
+        { "fieldPath": "_metadata.type", "order": "ASCENDING" },
+        { "fieldPath": "taken_at", "order": "ASCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "accounts",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "status", "order": "ASCENDING" },
+        { "fieldPath": "type", "order": "ASCENDING" },
+        { "fieldPath": "lastScrapedAt", "order": "ASCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "accounts",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "scraper", "order": "ASCENDING" },
+        { "fieldPath": "status", "order": "ASCENDING" }
+      ]
+    }
+  ],
+  "fieldOverrides": []
+}
