@@ -8,7 +8,7 @@ const {
 module.exports.syncInstagramMediaToFirestore = ({ app }) =>
   functions
     .runWith({ timeoutSeconds: 540 })
-    .pubsub.schedule("0 * * * *")
+    .pubsub.schedule("*/30 * * * *")
     .onRun(async () => {
       const firestore = getFirestore(app)
       const storage = getStorage(app)
