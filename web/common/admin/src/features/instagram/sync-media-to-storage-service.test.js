@@ -15,7 +15,7 @@ describe("Instagram/SyncMediaToStorageService", () => {
       type: "service_account",
       project_id: "amoschan-test",
       private_key_id: "4089b0a479e947a71e6cdce94a7dc66400569cb6",
-      private_key: process.env.TEST_FIREBASE_PRIVATE_KEY,
+      private_key: process.env.FIREBASE_PRIVATE_KEY,
       client_email:
         "firebase-adminsdk-i0ruj@amoschan-test.iam.gserviceaccount.com",
       client_id: "101310353030596582028",
@@ -28,7 +28,7 @@ describe("Instagram/SyncMediaToStorageService", () => {
 
     app = admin.initializeApp({
       credential: admin.credential.cert(serviceAccount),
-      storageBucket: `${process.env.TEST_FIREBASE_PROJECT_ID}.appspot.com`,
+      storageBucket: `${process.env.FIREBASE_PROJECT_ID}.appspot.com`,
     })
 
     firestore = getFirestore(app)
