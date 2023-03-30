@@ -1,4 +1,4 @@
-name: "[common-admin] Verify pull request"
+name: "[common-admin] Process pull request"
 on: pull_request
 jobs:
   test:
