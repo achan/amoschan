@@ -2,7 +2,7 @@ const functions = require("firebase-functions")
 const { getFunctions } = require("firebase-admin/functions")
 
 const MIN_WAIT_TIME = 1
-const MAX_WAIT_TIME = 10
+const MAX_WAIT_TIME = 30
 
 module.exports.enqueueInstagramMediaSync = ({ app }) =>
   functions.pubsub.schedule("*/10 * * * *").onRun(async () => {
