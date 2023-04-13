@@ -1,6 +1,6 @@
 const functions = require("firebase-functions")
 const { getFirestore } = require("firebase-admin/firestore")
-const { getStorage } = require("firebase-admin/storage")
+const { getFunctions } = require("firebase-admin/functions")
 const {
   Instagram: { Api, SyncUserMediaToFirestoreService },
 } = require("@amoschan/common-admin")
@@ -8,10 +8,17 @@ const {
 module.exports.syncInstagramMediaToFirestore = ({ app }) =>
   functions
     .runWith({ timeoutSeconds: 540 })
-    .pubsub.schedule("*/30 * * * *")
-    .onRun(async () => {
+    .tasks.taskQueue({
+      retryConfig: {
+        maxAttempts: 5,
+        minBackoffSeconds: 60 * 5,
+      },
+      rateLimits: {
+        maxConcurrentDispatches: 1,
+      },
+    })
+    .onDispatch(async () => {
       const firestore = getFirestore(app)
-      const storage = getStorage(app)
       const logger = console
 
       const querySnapshot = await firestore
